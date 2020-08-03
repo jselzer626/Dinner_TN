@@ -13,26 +13,22 @@ origin_number = '+12057829884'
 
 @app.route('/', methods=['GET', 'POST'])
 def sendSMS():
-    try:
     if request.method == "POST":
 
         destination = request.form['number']
         recipe = request.form['recipe']
         ingredients = request.form['ingredients']
 
-        print(destination, recipe, ingredients)
-
-        message = client.messages.create(
-            body=recipe,
-            from_=origin_number,
-            to=f"+1{destination}"
-        )
+    # twilio 
+        try:
+            message = client.messages.create(
+                body=recipe,
+                from_=origin_number,
+                to=f"+1{destination}"
+            )
+        except Exception: 
+            return jsonify("Invalid number")
 
         return jsonify(message.status)
 
-    except HTTPError:
-        return "error"
-
-
-    
     return 'hello world'
