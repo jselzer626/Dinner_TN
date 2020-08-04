@@ -22,7 +22,7 @@ def sendSMS():
     # twilio 
         try:
             message = client.messages.create(
-                body=recipe,
+                body=f"Ingredients: {ingredients}\nInstructions: {recipe}",
                 from_=origin_number,
                 to=f"+1{destination}"
             )
