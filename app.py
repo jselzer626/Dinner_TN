@@ -16,16 +16,10 @@ def sendSMS():
 
     if request.method == "POST":
 
-        print(request.json)
 
-        destination = request.json['number']
-        recipe = request.json['recipe']
-        ingredients = request.json['ingredients']
-
-
-        '''destination = request.form['number']
+        destination = request.form['number']
         recipe = request.form['recipe']
-        ingredients = request.form['ingredients']'''
+        ingredients = request.form['ingredients']
 
     # twilio 
         try:
@@ -37,9 +31,10 @@ def sendSMS():
         except Exception: 
             return jsonify("error")
 
-        return jsonify(message.status)
+        response = jsonify(message.status)
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
 
-    return 'hello world'
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
