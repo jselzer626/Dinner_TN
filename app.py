@@ -16,24 +16,33 @@ def sendSMS():
 
     if request.method == "POST":
 
-
+        messageSuccess = True
         destination = request.form['number']
         recipe = request.form['recipe']
         ingredients = request.form['ingredients']
 
     # twilio 
+    # twilio has a 1600 character limit so splitting into two messages
         try:
-            message = client.messages.create(
-                body=f"Ingredients: {ingredients}\n\nInstructions: {recipe}",
+            ingredientsMessage = client.messages.create(
+                body=f"Ingredients: {ingredients}",
                 from_=origin_number,
                 to=f"+1{destination}"
+                )
+            recipeMessage = client.messages.create(
+                body=f"Directions: {recipe}",
+                from_=origin_number,
+                to=f"+1{destination}"    
             )
-        except Exception: 
-            return jsonify("error")
+        except Exception:
+            messageSuccess = False 
 
-        response = jsonify(message.status)
+        response = jsonify(messageSuccess)
+        # CORS
         response.headers.add("Access-Control-Allow-Origin", "*")
         return response
+    
+    return 'hello world'
 
 
 if __name__ == '__main__':
