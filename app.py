@@ -55,8 +55,6 @@ def searchRecipes():
 
     if request.method == "GET":
 
-        print(spoonacular)
-
         response = ''
         searchParams = request.args.get('query')
         requestParams = {
@@ -87,8 +85,6 @@ def getRecipeDetails(recipeId):
             'apiKey':os.environ.get("SPOONACULAR_KEY")
         }
         url = f"https://api.spoonacular.com/recipes/{recipeId}/information"
-
-        # print(requests.get(url, requestParams).json())
 
         try:
             r = requests.get(url, requestParams)
